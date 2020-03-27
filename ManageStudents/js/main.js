@@ -6,7 +6,7 @@
 //
 // - StudentList
 // ==> Thuộc tính: Array student
-// ==> Hành động: showStudentList(), getStudentID, checkStudentID(studentID), addStudent(student), editStudent(studentID), removeStudent(studentID)
+// ==> Hành động: showStudentList(), getStudentID, checkStudentID(studentID), searchStudent(studentName) addStudent(student), editStudent(studentID), removeStudent(studentID)
 
 function Student(studentID, studentName, studentBirth, studentEmail, studentCountry) {
     this.studentID = studentID;
@@ -19,10 +19,10 @@ function Student(studentID, studentName, studentBirth, studentEmail, studentCoun
 function StudentList() {
     this.studentData = [];
 
-    this.showStudentList = function () {
+    this.showStudentList = function (arr) {
         let form = document.getElementById("studentList");
         form.innerHTML = "";
-        for (let i = 0; i < this.studentData.length; i++) {
+        for (let i = 0; i < arr.studentData.length; i++) {
             let data = stdList.studentData[i];
             let trElement = document.createElement("tr");
             trElement.className = "trStudentList";
@@ -115,6 +115,17 @@ function StudentList() {
             }
         }
     };
+
+    this.searchStudent = function (keyword) {
+        let student = new StudentList();
+        for (let i = 0; i < this.studentData.length; i++) {
+            let str = this.studentData[i];
+            if (str.studentName.toLowerCase().trim().search(keyword.toLowerCase().trim()) !== -1) {
+                student.addStudent(str);
+            }
+        }
+        return student;
+    };
 }
 
 let stdList = new StudentList();
@@ -166,7 +177,7 @@ function addNewStudent() {
         alert("Email no valid. Please input again");
     } else {
         stdList.addStudent(std);
-        stdList.showStudentList();
+        stdList.showStudentList(stdList);
     }
 }
 
@@ -195,7 +206,7 @@ function saveEditedStudent() {
     stdList.editStudent(std);
     saveField.style.opacity = "0";
     saveField.style.height = "0";
-    stdList.showStudentList();
+    stdList.showStudentList(stdList);
 }
 
 function delStudent() {
@@ -207,5 +218,11 @@ function delStudent() {
         }
     }
     stdList.removeStudent(recycleBin);
-    stdList.showStudentList();
+    stdList.showStudentList(stdList);
+}
+
+function searchStd() {
+    let keyword = document.getElementById("keyword").value;
+    let result = stdList.searchStudent(keyword);
+    stdList.showStudentList(result);
 }
