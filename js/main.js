@@ -207,10 +207,26 @@ function saveEditedStudent() {
     let studentEmail = document.getElementById("editEmail").value;
     let studentCountry = document.getElementById("editCountry").value;
     let std = new Student(studentID, studentName.toUpperCase(), studentBirth, studentEmail.toLowerCase(), studentCountry);
-    stdList.editStudent(std);
-    saveField.style.opacity = "0";
-    saveField.style.height = "0";
-    stdList.showStudentList(stdList);
+    if (studentID === "" || studentName === "" || studentBirth === "" || studentEmail === "" || studentCountry === "") {
+        alert("Please Input Before Submit");
+    } else if (studentID === "") {
+        alert("Please Input Student ID");
+    } else if (stdList.checkStudentID(studentID)) {
+        alert("ID existed. Please input again");
+    } else if (studentName === "") {
+        alert("Please Input A Name");
+    } else if (studentBirth === "") {
+        alert("Please Input Date of Birth")
+    } else if (studentEmail === "") {
+        alert("Please Input Email")
+    } else if (!checkEmailValid(studentEmail)) {
+        alert("Email no valid. Please input again");
+    } else {
+        stdList.editStudent(std);
+        saveField.style.opacity = "0";
+        saveField.style.height = "0";
+        stdList.showStudentList(stdList);
+    }
 }
 
 function cancelEdit() {
