@@ -178,6 +178,10 @@ function addNewStudent() {
     } else {
         stdList.addStudent(std);
         stdList.showStudentList(stdList);
+        document.getElementById("studentID").value = "";
+        document.getElementById("studentName").value = "";
+        document.getElementById("studentBirth").value = "";
+        document.getElementById("studentEmail").value = "";
     }
 }
 
@@ -209,16 +213,25 @@ function saveEditedStudent() {
     stdList.showStudentList(stdList);
 }
 
+function cancelEdit() {
+    let saveField = document.getElementById("editStd");
+    saveField.style.opacity = "0";
+    saveField.style.height = "0";
+}
+
 function delStudent() {
-    let checked = document.getElementsByClassName("ckbID");
-    let recycleBin = [];
-    for (let i = 0; i < checked.length; i++) {
-        if (checked[i].checked) {
-            recycleBin.push(checked[i].value);
+    let resultConfirm = confirm("Are You Sure!?");
+    if (resultConfirm === true) {
+        let checked = document.getElementsByClassName("ckbID");
+        let recycleBin = [];
+        for (let i = 0; i < checked.length; i++) {
+            if (checked[i].checked) {
+                recycleBin.push(checked[i].value);
+            }
         }
+        stdList.removeStudent(recycleBin);
+        stdList.showStudentList(stdList);
     }
-    stdList.removeStudent(recycleBin);
-    stdList.showStudentList(stdList);
 }
 
 function searchStd() {
